@@ -21,9 +21,6 @@ class HomeView extends StatelessWidget {
         builder: (context, state) {
           final controller = context.read<HomeCubit>();
           return Scaffold(
-            appBar: AppBar(
-              title: Text('home'.tr()),
-            ),
             body: Form(
               key: controller.formKey,
               child: Column(
@@ -76,19 +73,21 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                   10.height,
-                  InstaButton(
-                    onPressed: controller.go,
-                    text: 'go'.tr(),
-                  ),
-                  10.height,
-                  InstaOutlinedButton(
-                    onPressed: () {
-                      controller.launch(Social.whatsApp);
-                    },
-                    text: 'go'.tr(),
+                  Row(
+                    children: List.generate(Social.values.length, (index) {
+                      final e = Social.values[index];
+                      return Expanded(
+                        child: InstaOutlinedButton(
+                          onPressed: () {
+                            controller.launch(e);
+                          },
+                          text: e.name.tr(),
+                        ).marginEnd(index % 2 == 0 ? 4 : 0),
+                      );
+                    }),
                   ),
                 ],
-              ).marginHorizontal(18),
+              ).marginHorizontal(18).marginVertical(20),
             ),
           );
         },

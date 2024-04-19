@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:insta_message/global/extensions.dart';
-import 'package:insta_message/logic/global/alerts/insta_alerts.dart';
 import 'package:insta_message/logic/global/cubit_state/cubit_state.dart';
 import 'package:insta_message/logic/global/utilities/input_formatters.dart';
 import 'package:insta_message/logic/structure/enums.dart';
@@ -17,6 +15,7 @@ class HomeCubit extends Cubit<CubitState> {
   final formKey = GlobalKey<FormState>();
   bool isLibyan = true;
   Future launch(Social platform) async {
+    if (!formKey.currentState!.validate()) return;
     try {
       emit(const CubitState.loading());
       launchUrl(
@@ -46,12 +45,26 @@ class HomeCubit extends Cubit<CubitState> {
     bool isLibyan = false;
     if (clipboardText != null) {
       clipboardText = clipboardText.replaceAll('+', '');
-      if (!clipboardText.startsWith('218')) {
-        clipboardText = '218$clipboardText';
+      if (clipboardText.startsWith('00218')) {
+        clipboardText = clipboardText.replaceFirst('00218', '218');
+        clipboardText = clipboardText.substring(0, 12);
+        isLibyan = true;
+      }
+      if (clipboardText.startsWith(RegExp(r'^(92|91|93|94)'))) {
+        clipboardText = '218$clipboardText'.substring(0, 12);
         isLibyan = true;
       }
       if (clipboardText.startsWith(RegExp(r'^(092|091|093|094)'))) {
-        clipboardText = clipboardText.replaceFirst('0', '');
+        clipboardText = '218${clipboardText.replaceFirst('0', '')}';
+        isLibyan = true;
+      }
+      if (clipboardText.startsWith(RegExp(r'^(218092|218091|218093|218094)'))) {
+        clipboardText = clipboardText.replaceFirst('2180', '218');
+        clipboardText = clipboardText.substring(0, 12);
+        isLibyan = true;
+      }
+      if (clipboardText.startsWith('2189')) {
+        clipboardText = clipboardText.substring(0, 12);
         isLibyan = true;
       }
       if (isLibyan) {
@@ -62,10 +75,6 @@ class HomeCubit extends Cubit<CubitState> {
       }
     }
     emit(const CubitState.initial());
-  }
-
-  Future go() async {
-    if (formKey.currentState!.validate()) {}
   }
 
   void toggleCountry() {

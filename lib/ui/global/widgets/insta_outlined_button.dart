@@ -16,10 +16,7 @@ class InstaOutlinedButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(
-          Size(
-            context.width,
-            50,
-          ),
+          const Size.fromHeight(50),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -38,9 +35,8 @@ class InstaOutlinedButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: context.textTheme.titleMedium!.copyWith(
           color: context.theme.primaryColor,
-          fontSize: 20,
         ),
       ),
     );

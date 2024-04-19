@@ -1,7 +1,6 @@
 enum Social {
   whatsApp(0, 'WhatsApp', 'https://wa.me/'),
-  telegram(1, 'Telegram', 'https://t.me/'),
-  other(2, 'Other', '');
+  telegram(1, 'Telegram', 'https://t.me/');
 
   const Social(
     this.id,

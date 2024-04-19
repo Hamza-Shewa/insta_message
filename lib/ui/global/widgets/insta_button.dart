@@ -16,10 +16,7 @@ class InstaButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(
-          Size(
-            context.width,
-            50,
-          ),
+          const Size.fromHeight(50),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
@@ -32,10 +29,7 @@ class InstaButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
-          color: context.theme.scaffoldBackgroundColor,
-          fontSize: 20,
-        ),
+        style: context.textTheme.titleMedium,
       ),
     );
   }
